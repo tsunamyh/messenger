@@ -1,0 +1,50 @@
+/* * {box-sizing: border-box} */
+
+/* Style the tabs */
+.chatTabs {
+  float: left;
+  overflow-y: hidden;
+  border: 1px solid #ccc;
+  border-bottom: 1px solid black;
+  background-color: #f1f1f1;
+  width: 16%;
+  /* height: 300px; */
+  height: calc(100vh - 105px);
+  min-height: 136px;
+
+}
+
+/* Style the buttons that are used to open the tabs content */
+.chatTabs button {
+  display: block;
+  background-color: inherit;
+  color: black;
+  padding: 22px 16px;
+  width: 100%;
+  border: none;
+  outline: none;
+  text-align: left;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* Change background color of buttons on hover */
+.chatTabs button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current "tabs button" class */
+.chatTabs button.active {
+  background-color: #ccc;
+}
+
+
+/* Style the tabs content */
+/* .chatContent {
+  float: left;
+  padding: 0px 12px;
+  border: 1px solid #ccc;
+  width: 70%;
+  border-left: none;
+  height: 300px;
+} */

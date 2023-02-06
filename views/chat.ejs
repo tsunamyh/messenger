@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Chat Application</title>
+    <meta name="description" content="Tuts+ Chat Application" />
+    <!-- <link rel="stylesheet" href="/css/style.css" /> -->
+    <link rel="stylesheet" href="/css/chat.css">
+    <link rel="stylesheet" href="/css/tab.css">
+</head>
+
+<body>
+    <h4 style="text-align: center;"> </h4>
+    <div id="wrapper">
+
+        <div id="menu">
+            <p class="welcome" style="text-align: center;">Welcome to messenger <b id="username">
+                    <%= username %>
+                </b> </p>
+            <p class="logout"><a id="exit" href="/user/logout">Exit Chat</a></p>
+        </div>
+
+        <div class="chatTabs">
+            <button class="chatTitle" onclick="openChat(event, 'Savedmessage')" id="Savedmessage">Saved
+                Meessage</button>
+            <!-- <button class="tablinks" onclick="openCity(event, 'Paris')">Paris</button>
+                <button class="tablinks" onclick="openCity(event, 'Tokyo')">Tokyo</button> -->
+        </div>
+
+        <div class="chatContents">
+            <div class="chatContent" id="Savedmessage">
+                <div class="formal"></div> <!-- this is dummy div -->
+            </div>
+        </div>
+
+        <form id="message" action="javascript:void(0)">
+            <input name="usermsg" type="text" id="usermsg" placeholder=" Message..." />
+            <button name="submitmsg" id="submitmsg" type="submit">Send</button>
+            <!-- <input name="submitmsg" type="submit" id="submitmsg" value="Send" /> -->
+        </form>
+
+    </div>
+    <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
+    <script src="/wsclient.js"></script>
+</body>
+
+</html>

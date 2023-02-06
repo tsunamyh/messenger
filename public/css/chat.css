@@ -1,0 +1,165 @@
+
+h4 {
+  margin: 0;
+}
+
+body {
+  margin: 20px auto;
+  font-family: "Lato";
+  font-weight: 300;
+}
+
+form {
+  padding: 51px 25px 21px;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  background: #efefef;
+  position: relative;
+  /* width: calc(100% - 89px); */
+  bottom: 0;
+  border: solid 1px;
+}
+
+form label {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+input {
+  font-family: "Lato";
+}
+
+a {
+  color: #0000ff;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+#wrapper,
+#loginform {
+  /* margin-left: 0px; */
+  margin: 0 auto;
+  /* padding-bottom: 25px; */
+  /* background: #eee; */
+  width: 98%;
+  /* align-items: flex-end; */
+  max-width: 98%;
+  border: 1px solid #212121;
+  /* display: flex; */
+  border-radius: 0px;
+  /* min-height: 100vh; */
+}
+
+#loginform {
+  padding-top: 18px;
+  text-align: center;
+}
+
+#loginform p {
+  padding: 15px 25px;
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+.chatContents {
+  display: flex;
+  flex-direction: column;
+}
+
+.chatContent {
+  text-align: left;
+  margin: 0px;
+  padding: 10px;
+  background: #fff;
+  height: calc(100vh - 239px);
+  overflow: auto;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+}
+
+.chatContent p {
+ color: rgb(18 1 1);
+ border-radius: 20px;
+ position: relative;
+ margin-bottom: 6px; 
+ margin-top: 6px;
+ padding: 1%;
+
+} 
+
+.chatContent p.sentMessage {
+  border: 2px inset #08db3d;
+  background-color: #dfdcdc;
+}
+
+.chatContent p.recievedMessage {
+  border: 2px inset #08db3d;
+  background-color: #efc2c2;
+  display: flex;
+  margin-left: auto;
+}
+
+.chatContent div.formal {
+  font-size: large;
+  flex: 1 1 auto;
+}
+
+
+#usermsg {
+  flex: 1;
+  border-radius: 4px;
+  border: 1px solid #ff9800;
+}
+
+#name {
+  border-radius: 4px;
+  border: 1px solid #ff9800;
+  padding: 2px 8px;
+}
+
+#submitmsg,
+#enter{
+  background: #d83f45;
+  border: 8px solid #d83f45;
+  font-size: 16px;
+  color: white;
+  padding: 4px 10px;
+  font-weight: 700;
+  /* border-radius: 4px; */
+}
+
+.error {
+  color: #ff0000;
+}
+
+#menu {
+  border-bottom: 1px solid black;
+  /* height: 38px; */
+  padding: 10px;
+  display: flex;
+  background: #efefef;
+  margin: 0
+}
+
+#menu p.welcome {
+  flex: 1;
+  margin: 0;
+}
+
+#menu p.logout{
+  margin: 0;
+}
+
+a#exit {
+  color: rgb(233, 230, 230);
+  background: #c62828;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-weight: bold;
+}
