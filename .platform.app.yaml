@@ -18,4 +18,9 @@ disk: 512
 
 web:
   commands: 
-    start: "node app.js"        
+    start: "node app.js"
+  locations:
+    '/':
+        passthru: true
+        request_buffering:
+            enabled: false
