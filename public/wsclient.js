@@ -3,6 +3,7 @@ const HOST = location.href.replace(/^http/, 'ws');  //'ws://localhost:8080/chat'
 const ws = new WebSocket(HOST);
 
 ws.onopen = function () {
+    setTiltle('connected');
     clickSavedmessage()
     // Get the element with id="Savedmessage" in "chatTabs" and click on it
 };
@@ -150,7 +151,6 @@ function openChat(evt, id) {
 };
 
 function clickSavedmessage() {
-    setTiltle('connected');
     const chatTabs = document.getElementsByClassName("chatTabs");
     // console.log("chatTabs|>", chatTabs[0]);
     chatTabs[0].querySelector("button#Savedmessage").click();
