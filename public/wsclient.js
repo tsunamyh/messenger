@@ -1,5 +1,5 @@
-const HOST = location.href.replace(/^https/, 'ws');  //'ws://localhost:8080/chat'
-
+const HOST = location.href.replace(/^http/, 'ws');  //'ws://localhost:8080/chat'
+console.log(HOST);
 const ws = new WebSocket(HOST);
 
 ws.onopen = function () {
