@@ -2,7 +2,7 @@
   type: upstream
   upstream: app:http
 
-"https://{default}/ws":
+"https://{default}/chat":
     type: upstream
     upstream: "app:http"
     cache:

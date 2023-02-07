@@ -1,6 +1,5 @@
 const errorHandler = require("http-errors")
-const fs = require('fs')
-const https = require('https');
+const http = require('http');
 const path = require("path");
 const express = require("express");
 const session = require('express-session');
@@ -23,7 +22,7 @@ const sessionParser = session({
   secret: "sakethereiswebsocket",
   resave: false,
   saveUninitialized: false,
-  cookie: { maxAge: 60 * 60 * 1000 ,secure:true}
+  cookie: { maxAge: 60 * 60 * 1000 }
 });
 
 app.use(sessionParser)
@@ -58,10 +57,7 @@ app.use((err, req, res, next) => {
   res.render('error');
 })
 
-const server = https.createServer({
-  cert: fs.readFileSync(path.join(__dirname,"cert.pem")),
-  key: fs.readFileSync(path.join(__dirname,"key.pem")),
-},app);
+const server = http.createServer(app);
 
 module.exports = {
   server,
