@@ -1,4 +1,4 @@
-const HOST = location.href.replace(/^http/, 'ws');  //'ws://localhost:8080/echo'
+const HOST = location.href.replace(/^https/, 'ws');  //'ws://localhost:8080/echo'
 
 const ws = new WebSocket(HOST);
 
