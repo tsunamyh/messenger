@@ -150,8 +150,8 @@ function openChat(evt, id) {
 };
 
 function clickSavedmessage() {
+    setTiltle('connected');
     const chatTabs = document.getElementsByClassName("chatTabs");
     // console.log("chatTabs|>", chatTabs[0]);
     chatTabs[0].querySelector("button#Savedmessage").click();
-    setTiltle('connected');
 }
