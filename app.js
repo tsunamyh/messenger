@@ -2,7 +2,7 @@ const { WebSocketServer } = require("ws");
 const WebSocket = require("ws");
 require("dotenv").config();
 const { server, sessionParser } = require("./server");
-const mongoConnect = require("./services/mongo");
+// const mongoConnect = require("./services/mongo");
 const { findUserById, getAllUsers } = require("./routes/users/2userModel");
 const { saveMessage, getAllMessages } = require("./routes/messages/2messageModel");
 
@@ -27,7 +27,7 @@ server.on("upgrade", function (req, socket, head) {
     if (id!="12000") {
       
       try {
-        wsUsername = await findUserById(id);
+        // wsUsername = await findUserById(id);
         console.log("wsUser|>", wsUsername);
       } catch (error) {
         console.log("error findUserById in uograde listener");
@@ -50,23 +50,23 @@ server.on("upgrade", function (req, socket, head) {
 
       // console.log("ws.user|>", ws.user);
 
-      try {
-        let DbUsers = await getAllUsers();
-        console.log("DbUsers|>", DbUsers);
-        DbUsers.forEach(function (DbUser) {
-          // console.log(user._id != id);
-          if (DbUser._id != id) {
-            let newDbUser = {
-              id: DbUser._id,
-              username: DbUser.username,
-              messageStatus: "onlineUser",
-            }
-            ws.send(JSON.stringify(newDbUser), { binary: true });
-          }
-        })
-      } catch (error) {
-        console.log("can not find user in mongodb");
-      }
+      // try {
+      //   // let DbUsers = await getAllUsers();
+      //   console.log("DbUsers|>", DbUsers);
+      //   DbUsers.forEach(function (DbUser) {
+      //     // console.log(user._id != id);
+      //     if (DbUser._id != id) {
+      //       let newDbUser = {
+      //         id: DbUser._id,
+      //         username: DbUser.username,
+      //         messageStatus: "onlineUser",
+      //       }
+      //       ws.send(JSON.stringify(newDbUser), { binary: true });
+      //     }
+      //   })
+      // } catch (error) {
+      //   console.log("can not find user in mongodb");
+      // }
 
       const wsUser = {
         ...ws.user,
@@ -96,7 +96,7 @@ wss.on("connection", function connection(ws, req, username) {
       case "message":
         if (parsedRecievedMessage.recieverId != "Savedmessage") {
           //Create object to save in database
-          let clientUsername = await findUserById(parsedRecievedMessage.recieverId)
+          // let clientUsername = await findUserById(parsedRecievedMessage.recieverId)
           console.log("clientUsername", clientUsername, parsedRecievedMessage.recieverId);
           Object.assign(parsedRecievedMessage, {
             senderId: ws.user.id,
@@ -175,7 +175,7 @@ async function start() {
   server.listen(port, () => {
     console.log(`server is listening on port ${port}`);
   });
-  await mongoConnect(MONGO_URI)
+  // await mongoConnect(MONGO_URI)
 }
 
 start();
