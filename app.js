@@ -173,10 +173,10 @@ wss.on("connection", function connection(ws, req, username) {
 
 async function start() {
   const port = process.env.PORT || 8080
+  await mongoConnect(MONGO_URI)
   server.listen(port, () => {
     console.log(`server is listening on port ${port}`);
   });
-  await mongoConnect(MONGO_URI)
 }
 
 start();
