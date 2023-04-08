@@ -21,8 +21,8 @@ ws.onmessage = function ({ data }) {
         
         let parsedBlobData = JSON.parse(reader.result)
         switch (parsedBlobData.messageStatus) {
-            case "onlineUser":
-                console.log("caseOnlineUser|>", parsedBlobData.messageStatus);
+            case "signedInUser":
+                console.log("casesignedInUser|>", parsedBlobData.messageStatus);
                 let existTitle = document.getElementById(parsedBlobData.id)
                 if (!existTitle) {
                     createChatTitleAndChatContent(parsedBlobData)

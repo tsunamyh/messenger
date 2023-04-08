@@ -13,6 +13,7 @@ const wss = new WebSocketServer({ noServer: true, path: '/chat', clientTracking:
 const clients = new Set()
 
 server.on("upgrade", function (req, socket, head) {
+  // var pathname = require('url').parse(req.url).pathname;
   sessionParser(req, {}, async function () {
 
     if (!req.session?.passport) {
@@ -49,13 +50,13 @@ server.on("upgrade", function (req, socket, head) {
 
       try {
         let DbUsers = await getAllUsers();
-        console.log("DbUsers|>", DbUsers);
+        // console.log("DbUsers|>", DbUsers);
         DbUsers.forEach(function (DbUser) {
           if (DbUser._id != id) {
             let newDbUser = {
               id: DbUser._id,
               username: DbUser.username,
-              messageStatus: "onlineUser",
+              messageStatus: "signedInUser",
             }
             ws.send(JSON.stringify(newDbUser), { binary: true });
           }
@@ -66,7 +67,7 @@ server.on("upgrade", function (req, socket, head) {
 
       const wsUser = {
         ...ws.user,
-        messageStatus: "onlineUser",
+        messageStatus: "signedInUser",
       }
       clients.forEach(function iamonline(client) {
         if (client !== ws && client.readyState === WebSocket.OPEN) {
@@ -92,7 +93,7 @@ wss.on("connection", function connection(ws, req, username) {
         if (parsedRecievedMessage.recieverId != "Savedmessage") {
           //Create object to save in database
           let clientUsername = await findUserById(parsedRecievedMessage.recieverId)
-          console.log("clientUsername", clientUsername, parsedRecievedMessage.recieverId);
+          // console.log("clientUsername", clientUsername, parsedRecievedMessage.recieverId);
           Object.assign(parsedRecievedMessage, {
             senderId: ws.user.id,
             senderUsername: ws.user.username,
@@ -134,7 +135,7 @@ wss.on("connection", function connection(ws, req, username) {
         }
         try {
           let allMessages = await getAllMessages(senderRecieverId)
-          console.log("allMessages|>", allMessages);
+          // console.log("allMessages|>", allMessages);
           allMessages.messages.forEach(function (msg) {
 
             let DBmessage = {
@@ -165,11 +166,10 @@ wss.on("connection", function connection(ws, req, username) {
 })
 
 async function start() {
-  const port = process.env.PORT || 3030
+  const port = process.env.PORT || 8080
   server.listen(port, () => {
     console.log(`server is listening on port ${port}`);
   });
-  await mongoConnect(MONGO_URI)
 }
 
 start();

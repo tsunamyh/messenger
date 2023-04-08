@@ -9,10 +9,10 @@ async function saveMessage(data) {
     }
   })
 
-  console.log("messageQuery|>", messageQuery);
+  // console.log("messageQuery|>", messageQuery);
 
   if (messageQuery === null) {
-    console.log("messageQuery === null|>",messageQuery === null);
+    // console.log("messageQuery === null|>",messageQuery === null);
     const firstMessageQuery = new Message({
       messages: [{
         message: data["message"],
@@ -25,7 +25,7 @@ async function saveMessage(data) {
     })
 
     await firstMessageQuery.save();
-    console.log("firstMessageQuery|>", firstMessageQuery);
+    // console.log("firstMessageQuery|>", firstMessageQuery);
   } else {
     // messageQuery.messages.push({ message: data["message"] });
     // await messageQuery.save();
