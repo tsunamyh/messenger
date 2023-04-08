@@ -1,9 +1,0 @@
-"https://{default}/":
-  type: upstream
-  upstream: app:http
-
-"https://{default}/chat":
-    type: upstream
-    upstream: "app:http"
-    cache:
-        enabled: false
