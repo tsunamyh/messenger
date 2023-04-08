@@ -5,9 +5,7 @@ const bcrypt = require("bcryptjs")
 
 passport.use(new LocalStrategy({ passReqToCallback: true },//To access req
   async function (req, username, password, done) {
-    if (username=="admin"&&password=="admin") {
-      return done(null,{username:"admin",_id:"12000"})
-    }
+
     const user = await findUserByUsername(username)
     req.session.messages = []
     if (!user) {

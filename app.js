@@ -22,61 +22,54 @@ server.on("upgrade", function (req, socket, head) {
       return;
     }
 
-    const id = req.session.passport.user
-    let wsUsername={}
-    if (id!="12000") {
-
-      try {
-        wsUsername = await findUserById(id);
-      } catch (error) {
-        console.log("error findUserById in uograde listener");
-        socket.destroy(error);
-        return
-      }
-    }else{
-      wsUsername.username = "Hojat"
-    }
-
-    wss.handleUpgrade(req, socket, head, async function (ws) {
-      //Attach user to ws
-      Object.assign(ws, {
-        user: {
-          username: wsUsername.username || "Hojat",
-          // username: "admin",
-          id
-        }
-      })
-
-      try {
-        let DbUsers = await getAllUsers();
-        DbUsers.forEach(function (DbUser) {
-          if (DbUser._id != id) {
-            let newDbUser = {
-              id: DbUser._id,
-              username: DbUser.username,
-              messageStatus: "signedInUser",
-            }
-            ws.send(JSON.stringify(newDbUser), { binary: true });
+    const id = req.session.passport.user;
+    try {
+      const wsUsername = await findUserById(id);
+      wss.handleUpgrade(req, socket, head, async function (ws) {
+        //Attach user to ws
+        Object.assign(ws, {
+          user: {
+            username: wsUsername.username || "Hojat",
+            // username: "admin",
+            id
           }
         })
-      } catch (error) {
-        console.log("can not find user in mongodb",error.message);
-      }
 
-      const wsUser = {
-        ...ws.user,
-        messageStatus: "signedInUser",
-      }
-      clients.forEach(function iamonline(client) {
-        if (client !== ws && client.readyState === WebSocket.OPEN) {
-          //Sends online users: {username: ?, id: ?, messageStatus: "onlineUser"}
-          client.send(JSON.stringify(wsUser), { binary: true })
+        try {
+          let DbUsers = await getAllUsers();
+          DbUsers.forEach(function (DbUser) {
+            if (DbUser._id != id) {
+              let newDbUser = {
+                id: DbUser._id,
+                username: DbUser.username,
+                messageStatus: "signedInUser",
+              }
+              ws.send(JSON.stringify(newDbUser), { binary: true });
+            }
+          })
+        } catch (error) {
+          console.log("can not find user in mongodb", error.message);
         }
-      })
 
-      clients.add(ws);
-      wss.emit('connection', ws, req, ws.user.username);
-    });
+        const wsUser = {
+          ...ws.user,
+          messageStatus: "signedInUser",
+        }
+        clients.forEach(function iamonline(client) {
+          if (client !== ws && client.readyState === WebSocket.OPEN) {
+            //Sends online users: {username: ?, id: ?, messageStatus: "onlineUser"}
+            client.send(JSON.stringify(wsUser), { binary: true })
+          }
+        })
+
+        clients.add(ws);
+        wss.emit('connection', ws, req, ws.user.username);
+      });
+    } catch  (error) {
+      console.log("error findUserById in uograde listener", error.message);
+      socket.destroy(error.message);
+      return
+    }
   });
 });
 
@@ -90,14 +83,14 @@ wss.on("connection", function connection(ws, req, username) {
       case "message":
         if (parsedRecievedMessage.recieverId != "Savedmessage") {
           //Create object to save in database
-          let clientUsername = await findUserById(parsedRecievedMessage.recieverId)
+          let clientUsername = await findUserById(parsedRecievedMessage.recieverId).catch(awaitErrHandle)
           // console.log("clientUsername", clientUsername, parsedRecievedMessage.recieverId);
           Object.assign(parsedRecievedMessage, {
             senderId: ws.user.id,
             senderUsername: ws.user.username,
             recieverUsername: (clientUsername.username),//client.user.username,
           })
-          await saveMessage(parsedRecievedMessage)
+          await saveMessage(parsedRecievedMessage).catch(awaitErrHandle)
           //Create object for send to client
           let senderMessage = {
             senderId: ws.user.id,
@@ -162,6 +155,10 @@ wss.on("connection", function connection(ws, req, username) {
   })
 
 })
+
+function awaitErrHandle(err) {
+  console.log(err.message);
+}
 
 async function start() {
   const port = process.env.PORT || 8080;
