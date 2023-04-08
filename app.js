@@ -28,21 +28,20 @@ server.on("upgrade", function (req, socket, head) {
 
       try {
         wsUsername = await findUserById(id);
-        console.log("wsUser|>", wsUsername);
       } catch (error) {
         console.log("error findUserById in uograde listener");
         socket.destroy(error);
         return
       }
     }else{
-      wsUsername.username = "admin"
+      wsUsername.username = "Hojat"
     }
 
     wss.handleUpgrade(req, socket, head, async function (ws) {
       //Attach user to ws
       Object.assign(ws, {
         user: {
-          username: wsUsername.username || "admin",
+          username: wsUsername.username || "Hojat",
           // username: "admin",
           id
         }
@@ -50,7 +49,6 @@ server.on("upgrade", function (req, socket, head) {
 
       try {
         let DbUsers = await getAllUsers();
-        // console.log("DbUsers|>", DbUsers);
         DbUsers.forEach(function (DbUser) {
           if (DbUser._id != id) {
             let newDbUser = {
@@ -166,7 +164,8 @@ wss.on("connection", function connection(ws, req, username) {
 })
 
 async function start() {
-  const port = process.env.PORT || 8080
+  const port = process.env.PORT || 8080;
+  await mongoConnect(MONGO_URI)
   server.listen(port, () => {
     console.log(`server is listening on port ${port}`);
   });

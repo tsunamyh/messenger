@@ -17,8 +17,8 @@ passport.use(new LocalStrategy({ passReqToCallback: true },//To access req
       if (err) { //return done(null, false, "Incorrect password") };
         console.log("bcryptjs: cannot Compare passeword");
       }
-      if (success) { 
-        return done(null, user) 
+      if (success) {
+        return done(null, user)
       }else{
         return done(null, false, "Incorrect password")
       }
@@ -26,7 +26,7 @@ passport.use(new LocalStrategy({ passReqToCallback: true },//To access req
   }
 ))
 
-//initialize req.session.passport 
+//initialize req.session.passport
 passport.serializeUser(function (user, done) {
   done(null, user._id)
   //Done & returns to req.login while signing up
@@ -35,7 +35,6 @@ passport.serializeUser(function (user, done) {
 
 //Get req.session.passport & save in req.user
 passport.deserializeUser(async function (id, done) {
-  console.log(id);
   if(id=="12000"){
     return done(null, { username: "admin" })
   }

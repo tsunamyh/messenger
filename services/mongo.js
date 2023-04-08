@@ -5,7 +5,7 @@ mongoose.set('strictQuery', true);
 async function mongoConnect(uri) {
   try {
     await mongoose.connect(uri)
-    console.log(`MongoDB connected to ${uri}`)
+    console.log(`MongoDB connected to SERVER`)
   } catch (error) {
     console.log("MongodbError=>", error.message)
   }
