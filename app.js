@@ -6,14 +6,13 @@ const mongoConnect = require("./services/mongo");
 const { findUserById, getAllUsers } = require("./routes/users/2userModel");
 const { saveMessage, getAllMessages } = require("./routes/messages/2messageModel");
 
-const MONGO_URI = "mongodb+srv://tsunamyh:Hojat1234@messangercluster.iobk2zg.mongodb.net/?retryWrites=true&w=majority"
+const MONGO_URI = process.env.MONGO_URI
 
 const wss = new WebSocketServer({ noServer: true, path: '/chat', clientTracking: false });
 
 const clients = new Set()
 
 server.on("upgrade", function (req, socket, head) {
-  // var pathname = require('url').parse(req.url).pathname;
   sessionParser(req, {}, async function () {
 
     if (!req.session?.passport) {
@@ -25,7 +24,7 @@ server.on("upgrade", function (req, socket, head) {
     const id = req.session.passport.user
     let wsUsername={}
     if (id!="12000") {
-      
+
       try {
         wsUsername = await findUserById(id);
         console.log("wsUser|>", wsUsername);
@@ -48,13 +47,10 @@ server.on("upgrade", function (req, socket, head) {
         }
       })
 
-      // console.log("ws.user|>", ws.user);
-
       try {
         let DbUsers = await getAllUsers();
         console.log("DbUsers|>", DbUsers);
         DbUsers.forEach(function (DbUser) {
-          // console.log(user._id != id);
           if (DbUser._id != id) {
             let newDbUser = {
               id: DbUser._id,
@@ -65,7 +61,7 @@ server.on("upgrade", function (req, socket, head) {
           }
         })
       } catch (error) {
-        console.log("can not find user in mongodb");
+        console.log("can not find user in mongodb",error.message);
       }
 
       const wsUser = {
@@ -76,7 +72,6 @@ server.on("upgrade", function (req, socket, head) {
         if (client !== ws && client.readyState === WebSocket.OPEN) {
           //Sends online users: {username: ?, id: ?, messageStatus: "onlineUser"}
           client.send(JSON.stringify(wsUser), { binary: true })
-          // ws.send(JSON.stringify(client.user), { binary: true })
         }
       })
 
@@ -143,11 +138,11 @@ wss.on("connection", function connection(ws, req, username) {
           allMessages.messages.forEach(function (msg) {
 
             let DBmessage = {
-              //The message should be printed in the "class: chatContent" with this ID 
+              //The message should be printed in the "class: chatContent" with this ID
               senderId: parsedRecievedMessage.chatContentWithId,
               message: msg.message,
-              //False recieved message 
-              //True sent message 
+              //False recieved message
+              //True sent message
               isSender: msg.senderId == ws.user.id,//true or false
               messageStatus: "DBmessage"
             }
@@ -157,8 +152,7 @@ wss.on("connection", function connection(ws, req, username) {
         } catch (error) {
         }
         break;
-      case "":
-        break;
+
       default:
         break;
     }
@@ -171,7 +165,7 @@ wss.on("connection", function connection(ws, req, username) {
 })
 
 async function start() {
-  const port = process.env.PORT || 8080
+  const port = process.env.PORT || 3030
   server.listen(port, () => {
     console.log(`server is listening on port ${port}`);
   });

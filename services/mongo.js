@@ -7,12 +7,12 @@ async function mongoConnect(uri) {
     await mongoose.connect(uri)
     console.log(`MongoDB connected to ${uri}`)
   } catch (error) {
-    console.log("MongodbError=>", error)
+    console.log("MongodbError=>", error.message)
   }
 }
 
 mongoose.connection.on("error", function (err) {
-  console.log("mongooseError=>",err);
+  console.log("mongooseError=>",err.message);
 })
 
 mongoose.connection.on('close',function () {
